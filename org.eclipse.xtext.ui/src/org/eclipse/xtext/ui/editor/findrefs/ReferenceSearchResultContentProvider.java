@@ -190,7 +190,7 @@ public class ReferenceSearchResultContentProvider implements ITreeContentProvide
 					if (rootNodes != null && !rootNodes.isEmpty()) {
 						synchronized (viewer) {
 							viewer.remove(viewer.getInput(),
-									Iterables.toArray(rootNodes, ReferenceSearchViewTreeNode.class));
+									Iterables.toArray(rootNodes, Object.class));
 							rootNodes = null;
 						}
 					}
@@ -244,7 +244,7 @@ public class ReferenceSearchResultContentProvider implements ITreeContentProvide
 											break;
 										} else {
 											viewer.remove(rootNode, Iterables.toArray(removedReferenceNodes,
-													ReferenceSearchViewTreeNode.class));
+													Object.class));
 										}
 									}
 								}

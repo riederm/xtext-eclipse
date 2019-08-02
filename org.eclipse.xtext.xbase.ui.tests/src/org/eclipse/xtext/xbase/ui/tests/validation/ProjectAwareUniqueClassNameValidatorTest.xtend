@@ -8,10 +8,8 @@
 package org.eclipse.xtext.xbase.ui.tests.validation
 
 import java.util.Map
-import org.eclipse.core.internal.resources.File
-import org.eclipse.core.internal.resources.Workspace
 import org.eclipse.core.resources.IResource
-import org.eclipse.core.runtime.IPath
+import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.core.runtime.Path
 import org.eclipse.xtext.generator.OutputConfiguration
 import org.eclipse.xtext.generator.OutputConfiguration.SourceMapping
@@ -34,7 +32,7 @@ class ProjectAwareUniqueClassNameValidatorTest {
 		val sourceMapping = new SourceMapping("src/main/xtend_gen")
 		output.sourceMappings.add(sourceMapping)
 		classNameValidator.context.put("ProjectAwareUniqueClassNameValidator.outputConfigs", #[output])
-		val file = new MockedFile(new Path("foo/src/main/xtend_gen/org/eclipse/test/foo.bar"), null)
+		val file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path("foo/src/main/xtend_gen/org/eclipse/test/foo.bar"))
 		assertTrue(classNameValidator.isDerived(file))
 	}
 	
@@ -43,7 +41,7 @@ class ProjectAwareUniqueClassNameValidatorTest {
 		val output = new OutputConfiguration("TEST")
 		output.outputDirectory = "xtend_gen"
 		classNameValidator.context.put("ProjectAwareUniqueClassNameValidator.outputConfigs", #[output])
-		val file = new MockedFile(new Path("foo/src/main/xtend_gen/org/eclipse/test/foo.bar"), null)
+		val file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path("foo/src/main/xtend_gen/org/eclipse/test/foo.bar"))
 		assertFalse(classNameValidator.isDerived(file))
 	}
 	
@@ -54,7 +52,7 @@ class ProjectAwareUniqueClassNameValidatorTest {
 		val sourceMapping = new SourceMapping("src/main/xtend_gen")
 		output.sourceMappings.add(sourceMapping)
 		classNameValidator.context.put("ProjectAwareUniqueClassNameValidator.outputConfigs", #[output])
-		val file = new MockedFile(new Path("foo/src/main/src/org/eclipse/test/foo.bar"), null)
+		val file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path("foo/src/main/src/org/eclipse/test/foo.bar"))
 		assertFalse(classNameValidator.isDerived(file))
 	}
 	
@@ -67,7 +65,7 @@ class ProjectAwareUniqueClassNameValidatorTest {
 		val sourceMapping2 = new SourceMapping("src/test/xtend_gen")
 		output.sourceMappings.add(sourceMapping2)
 		classNameValidator.context.put("ProjectAwareUniqueClassNameValidator.outputConfigs", #[output])
-		val file = new MockedFile(new Path("foo/src/test/xtend_gen/org/eclipse/test/foo.bar"), null)
+		val file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path("foo/src/test/xtend_gen/org/eclipse/test/foo.bar"))
 		assertTrue(classNameValidator.isDerived(file))
 	}
 	
@@ -78,7 +76,7 @@ class ProjectAwareUniqueClassNameValidatorTest {
 		val sourceMapping = new SourceMapping("xtend_gen")
 		output.sourceMappings.add(sourceMapping)
 		classNameValidator.context.put("ProjectAwareUniqueClassNameValidator.outputConfigs", #[output])
-		val file = new MockedFile(new Path("foo/xtend_gen/org/eclipse/test/foo.bar"), null)
+		val file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path("foo/xtend_gen/org/eclipse/test/foo.bar"))
 		assertTrue(classNameValidator.isDerived(file))
 	}
 	
@@ -87,7 +85,7 @@ class ProjectAwareUniqueClassNameValidatorTest {
 		val output = new OutputConfiguration("TEST")
 		output.outputDirectory = "xtend_gen"
 		classNameValidator.context.put("ProjectAwareUniqueClassNameValidator.outputConfigs", #[output])
-		val file = new MockedFile(new Path("foo/xtend_gen/org/eclipse/test/foo.bar"), null)
+		val file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path("foo/xtend_gen/org/eclipse/test/foo.bar"))
 		assertTrue(classNameValidator.isDerived(file))
 	}
 
@@ -100,12 +98,5 @@ class MockedProjectAwareUniqueClassNameValidator extends ProjectAwareUniqueClass
 	}
 	override isDerived(IResource resource) {
 		super.isDerived(resource)
-	}
-}
-
-class MockedFile extends File {
-	
-	new(IPath path, Workspace container) {
-		super(path, container)
 	}
 }
