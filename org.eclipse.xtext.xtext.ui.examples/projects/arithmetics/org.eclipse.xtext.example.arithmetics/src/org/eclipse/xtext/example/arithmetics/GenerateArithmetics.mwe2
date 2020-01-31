@@ -9,6 +9,7 @@ module org.eclipse.xtext.example.arithmetics.GenerateArithmetics
 
 import org.eclipse.xtext.xtext.generator.*
 import org.eclipse.xtext.xtext.generator.model.project.*
+import org.eclipse.xtext.xtext.generator.ui.codemining.CodeMiningFragment
 
 var rootPath = ".."
 
@@ -56,6 +57,10 @@ Workflow {
 			validator = {
 				// composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
 				generateDeprecationValidation = false
+			}
+			fragment = CodeMiningFragment {
+				generateStub = true
+				generateXtendStub = false
 			}
 		}
 	}
